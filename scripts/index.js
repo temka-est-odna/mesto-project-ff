@@ -3,7 +3,7 @@
 // @todo: DOM узлы
 
 // @todo: Функция создания карточки
-function addCards(card, deleteCallback) {
+function createCard(card, deleteCallback) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
@@ -29,6 +29,6 @@ function deleteCard(cardElement) {
 const placesList = document.querySelector(".places__list");
 
 initialCards.forEach((card) => {
-  const cardElement = addCards(card, deleteCard);
+  const cardElement = createCard(card, deleteCard);
   placesList.appendChild(cardElement);
 });
