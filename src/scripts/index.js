@@ -1,8 +1,7 @@
-import { createCard, deleteCard } from "../components/card.js";
+import { createCard, deleteCard, toggleLike } from "../components/card.js";
 import { openModal, closeModal, setupModalListeners } from "../components/modal.js";
 import { initialCards } from "./cards.js";
 import "../styles/index.css"; // Важно для Webpack
-
 
 import avatarImage from '../images/avatar.jpg';
 import logoImage from '../images/logo.svg';
@@ -43,7 +42,7 @@ function openImagePopup(card) {
 
 // Рендер карточек
 initialCards.forEach((card) => {
-  const cardElement = createCard(card, deleteCard, null, openImagePopup);
+  const cardElement = createCard(card, deleteCard, toggleLike, openImagePopup);
   placesList.appendChild(cardElement);
 });
 
@@ -75,7 +74,7 @@ cardForm.addEventListener("submit", (evt) => {
     name: placeInput.value,
     link: linkInput.value
   };
-  const cardElement = createCard(newCard, deleteCard, null, openImagePopup);
+  const cardElement = createCard(newCard, deleteCard, toggleLike, openImagePopup);
   placesList.prepend(cardElement);
   closeModal(cardPopup);
 });

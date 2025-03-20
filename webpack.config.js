@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: './src/scripts/index.js', // Точка входа
   output: {
@@ -21,17 +21,17 @@ module.exports = {
             presets: ['@babel/preset-env'], // Поддержка современных JS
           },
         },
+        
       },
+      
       {
         test: /\.css$/, // Обработка CSS файлов
-        use: ['style-loader', 'css-loader'], // Загрузка и инжектирование CSS в HTML
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/, // Обработка изображений
-        type: 'asset/resource', // Это будет правильно загружать изображения
-        generator: {
-          filename: 'assets/[name][hash][ext]', // Загружать изображения в dist/assets
-        },
+        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+    type: 'asset/resource',
+        
       },
     ],
   },
@@ -45,5 +45,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html', // Путь к вашему HTML-шаблону
     }),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css', // Имя выходного CSS файла
+    })
   ],
 };
