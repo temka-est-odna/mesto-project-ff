@@ -1,103 +1,89 @@
-class Api {
-  constructor(config) {
-    this._url = config.url;
-    this._headers = config.headers;
-    this._authorization = config.headers['authorization'];
-  }
-
-  /**Проверить на ошибки */
-_checkResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Упс.... Что-то пошло не так! Ошибка: ${res.status}`);
+const config = {
+  baseUrl: "https://nomoreparties.co/v1/wff-cohort-34",
+  headers: {
+  authorization: "7337eed5-5b74-4664-8361-8678c9f0951e",
+    "Content-Type": "application/json",
+  },
 };
 
-  /**Запросить данные с сервера */
-  getInitialCards() {
-    return fetch(`${this._url}/cards`, {
-      headers: {
-        authorization: this._authorization
-      },
-    })
-    .then(res => this._checkResponse(res))
+export const checkResponse = (response) => {
+  if (response.ok) {
+    return response.json();
   }
+  return Promise.reject(`Ошибка: ${response.status}`);
+}
 
-  /**Функция добавления новой карточки на сервер */
-addNewCard(data) {
-  return fetch(`${this._url}/cards`, {
-    method: 'POST',
-    headers: this._headers,
-    body: JSON.stringify({
-      name: data.name,
-      link: data.link,
-    }),
+export const getProfileInfo = () => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "GET",
+    headers: config.headers,
   })
-  .then(res => this._checkResponse(res))
+    .then(checkResponse);
 };
 
-/**Функция получения данных пользователя с сервера*/
-getUserInfoApi() {
-  return fetch(`${this._url}/users/me`, {
-    headers: {
-      authorization: this._authorization
-    },
-  })
-  .then(res => this._checkResponse(res))
-}
-
-/**Функция передачи данных пользователя с сервера */
-setUserInfoApi(data) {
-  return fetch(`${this._url}/users/me`, {
-    method: 'PATCH',
-    headers: this._headers,
+export const editProfileInfo = (name, about) => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: config.headers,
     body: JSON.stringify({
-      name: data.name,
-      about: data.about,
+      name: name,
+      about: about,
     }),
   })
-  .then(res => this._checkResponse(res))
-}
+    .then(checkResponse);
+};
 
-/**Функция передачи на сервер нового аватара */
-setUserAvatar(data) {
-  return fetch(`${this._url}/users/me/avatar`, {
-    method: 'PATCH',
-    headers: this._headers,
+export const getCards = () => {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: "GET",
+    headers: config.headers,
+  })
+    .then(checkResponse);
+};
+
+export const addNewCard = (name, link) => {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: "POST",
+    headers: config.headers,
     body: JSON.stringify({
-      avatar: data.avatar,
+      name: name,
+      link: link,
     }),
   })
-  .then(res => this._checkResponse(res))
-}
+    .then(checkResponse);
+};
 
-/**Функция удаления карточки с сервера */
-deleteCard(cardId) {
-  return fetch(`${this._url}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: this._headers,
+export const deleteCard = (id) => {
+  return fetch(`${config.baseUrl}/cards/${id}`, {
+    method: "DELETE",
+    headers: config.headers,
   })
-  .then(res => this._checkResponse(res))
-}
+    .then(checkResponse);
+};
 
-/**Функция отправки лайка на сервер */
-putCardLike(cardId) {
-  return fetch(`${this._url}/cards/${cardId}/likes`, {
-    method: 'PUT',
-    headers: this._headers,
+export const addLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: config.headers,
   })
-  .then(res => this._checkResponse(res))
-}
+    .then(checkResponse);
+};
 
-/**Функция удаления лайка с сервера */
-deleteCardLike(cardId) {
-  return fetch(`${this._url}/cards/${cardId}/likes`, {
-    method: 'DELETE',
-    headers: this._headers,
+export const deleteLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
   })
-  .then(res => this._checkResponse(res))
-}
+    .then(checkResponse);
+};
 
-}
-
-export { Api };
+export const updateProfileAvatar = (avatarLink) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: avatarLink,
+    }),
+  })
+    .then(checkResponse);
+};
