@@ -1,3 +1,3 @@
 # Проектная работа Mesto
 
-https://sp4cevi.github.io/mesto-project-ff/
+https://temka-est-odna.github.io/mesto-project-ff
