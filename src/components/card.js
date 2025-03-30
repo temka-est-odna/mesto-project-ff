@@ -24,7 +24,7 @@ const handleLike = (cardId, likeButton, counter) => {
   }
 }
 
-const buttonClick = (evt) => {
+const handleLikeButtonClick = (evt) => {
   const likeButton = evt.target;
   const cardElement = likeButton.closest('.places__item');
   const counter = cardElement.querySelector('.card_like-counter');
@@ -54,7 +54,7 @@ export const createCard = (element, openImagePopup, userId) => {
     buttonLike.classList.add("card__like-button_is-active");
   }
 
-  buttonLike.addEventListener("click", buttonClick);
+  buttonLike.addEventListener("click", handleLikeButtonClick);
 
   const deleteButton = templates.querySelector(".card__delete-button");
 
